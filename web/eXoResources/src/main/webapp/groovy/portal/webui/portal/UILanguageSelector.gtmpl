@@ -49,25 +49,25 @@
                     } 
                     selectOptions.put(makeJSON(selector.name, opt.value));
                 %>
-               <tr class="$itemSelected">
-                <td><div class="uiIconTick uiIconBlue"><span></span></div></td> 	+ <td><div class="uiIconTick uiIconBlue"><span></span></div></td>
-                <%
-                if (opt.getDescription().equals("Shqipe"))
-                {%>
-                <td><a class="nodeLabel">Crowdin JIPT Translation</a></td>
+                  <tr class="$itemSelected">
+                    <td><div class="uiIconTick uiIconBlue"><span></span></div></td>		    
+		<%
+		if (opt.getDescription().equals("Shqipe"))
+		{%>
+		<td><a class="nodeLabel">Crowdin JIPT Translation</a></td>
                 <td class="percentLabel">&nbsp;</td>
-                <%}
-                else
-                { %>
-              <td><a class="nodeLabel"><%=opt.getLabel()%></a></td> 	<td><a class="nodeLabel"><%=opt.getLabel()%></a></td>
-              <td class="percentLabel"><%=opt.getDescription()%></td> 	<td class="percentLabel"><%=opt.getDescription()%></td>
-                <%}%>
-              </tr>
+		<%}
+		else
+		{ %>		    
+                    <td><a class="nodeLabel"><%=opt.getLabel()%></a></td>
+                    <td class="percentLabel"><%=opt.getDescription()%></td>
+		<%}%>
+                  </tr>
                 <%}%> 
                 </table>
              <%}%>
                
-            <%/*End ItemDetailList*/%>      
+            <%/*End ItemDetailList*/%>        
           
             
      
