@@ -24,4 +24,44 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.exoplaform.org/xml/ns/kernel_1_2.xsd http://www.exoplaform.org/xml/ns/kernel_1_2.xsd"
     xmlns="http://www.exoplaform.org/xml/ns/kernel_1_2.xsd">
+
+  <component>
+    <type>org.exoplatform.portal.application.virtual.VirtualPortletAppService</type>
+  </component>
+
+  <external-component-plugins>
+    <target-component>org.exoplatform.portal.application.virtual.VirtualPortletAppService</target-component>
+    <component-plugin>
+      <name>addVirtualAppPlugin</name>
+      <set-method>addVirtualAppPlugin</set-method>
+      <type>org.exoplatform.portal.application.virtual.VirtualPortletAppPlugin</type>
+      <description>Add a virtual portlet app plugin</description>
+      <init-params>
+        <object-param>
+          <name>app1</name>
+          <description>description</description>
+          <object type="org.exoplatform.portal.application.virtual.VirtualApplication">
+            <field name="virtual">
+              <string>foo</string>
+            </field>
+            <field name="real">
+              <string>bar</string>
+            </field>
+          </object>
+        </object-param>
+        <object-param>
+          <name>app2</name>
+          <description>description</description>
+          <object type="org.exoplatform.portal.application.virtual.VirtualApplication">
+            <field name="virtual">
+              <string>origin</string>
+            </field>
+            <field name="real">
+              <string>newwar</string>
+            </field>
+          </object>
+        </object-param>
+      </init-params>
+    </component-plugin>
+  </external-component-plugins>
 </configuration>

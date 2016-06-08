@@ -22,11 +22,14 @@ package org.exoplatform.portal.webui.application;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.exoplatform.application.gadget.GadgetRegistryService;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.portal.application.virtual.VirtualPortletAppService;
 import org.exoplatform.portal.config.DataStorage;
 import org.exoplatform.portal.config.model.ApplicationState;
 import org.exoplatform.portal.config.model.ApplicationType;
@@ -39,6 +42,7 @@ import org.exoplatform.portal.pom.spi.portlet.PortletBuilder;
 import org.exoplatform.portal.pom.spi.portlet.Preference;
 import org.exoplatform.portal.pom.spi.wsrp.WSRP;
 import org.exoplatform.portal.pom.spi.wsrp.WSRPPortletStateType;
+
 import org.gatein.pc.api.PortletContext;
 import org.gatein.pc.api.PortletInvoker;
 import org.gatein.pc.api.StatefulPortletContext;
@@ -110,6 +114,8 @@ public abstract class ModelAdapter<S, C extends Serializable> {
             int indexOfSeparator = applicationState.lastIndexOf("/");
             String appName = applicationState.substring(0, indexOfSeparator);
             String portletName = applicationState.substring(indexOfSeparator + 1);
+            VirtualPortletAppService virtualAppServ = ExoContainerContext.getCurrentContainer().getComponentInstanceOfType(VirtualPortletAppService.class);
+            appName = virtualAppServ.getRealApp(appName);
             return PortletContext.reference(PortletInvoker.LOCAL_PORTLET_INVOKER_ID,
                     PortletContext.createPortletContext(appName, portletName));
         }
