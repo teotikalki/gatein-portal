@@ -24,6 +24,42 @@ import java.util.Map;
 import org.exoplatform.container.component.ComponentPlugin;
 
 /**
+ * A service manages the mapping between virtual and real
+ * applications of portlets. The mapping can be pluggability configurable via
+ * {@link VirtualPortletAppPlugin} thank to component-plugin mechanism.
+ * <p>
+ * For example if you want to map serving portlets from a virtual application
+ * war "foo" to the real one "bar", you could configure virtual app plugin with
+ * init-params like following:
+ *
+ * <pre>
+ * {@code
+ *   <external-component-plugins>
+ *    <target-component>org.exoplatform.portal.application.virtual.VirtualPortletAppService</target-component>
+ *    <component-plugin>
+ *      <name>addVirtualAppPlugin</name>
+ *      <set-method>addVirtualAppPlugin</set-method>
+ *      <type>org.exoplatform.portal.application.virtual.VirtualPortletAppPlugin</type>
+ *      <description>Add a virtual portlet app plugin</description>
+ *      <init-params>
+ *        <object-param>
+ *          <name>app1</name>
+ *          <description>description</description>
+ *          <object type="org.exoplatform.portal.application.virtual.VirtualApplication">
+ *            <field name="virtual">
+ *              <string>foo</string>
+ *            </field>
+ *            <field name="real">
+ *              <string>bar</string>
+ *            </field>
+ *          </object>
+ *        </object-param>
+ *      </init-params>
+ *    </component-plugin>
+ *  </external-component-plugins>
+ * }
+ * </pre>
+ *
  * @author <a href="trongtt@exoplatform.com">Trong Tran</a>
  * @version $Revision$
  */
