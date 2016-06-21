@@ -383,7 +383,7 @@ public class ApplicationRegistryServiceImpl implements ApplicationRegistryServic
         portlet: for (org.gatein.pc.api.Portlet portlet : portlets) {
             PortletInfo info = portlet.getInfo();
             String portletApplicationName = info.getApplicationName();
-            String portletName = portlet.getContext().getId();
+            String portletName = info.getName();
 
             // Need to sanitize portlet and application names in case they contain characters that would
             // cause an improper Application name

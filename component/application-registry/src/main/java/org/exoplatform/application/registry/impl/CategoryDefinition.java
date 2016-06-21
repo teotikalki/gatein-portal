@@ -115,11 +115,6 @@ public abstract class CategoryDefinition {
         //
         if (customization == null) {
             workspace.getCustomizationContext().customize(definitionName, contentType, contentId, null);
-        } else if (customization.getContentId().equals(contentId)) {
-            // Do nothing here
-        } else {
-            throw new IllegalArgumentException("Cannot create a content with a content id " + contentId
-                    + " with an existing different content id " + customization.getContentId());
         }
 
         //
