@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.chromattic.api.ChromatticSession;
+
 import org.exoplatform.application.gadget.Gadget;
 import org.exoplatform.application.gadget.GadgetRegistryService;
 import org.exoplatform.application.registry.Application;
@@ -44,6 +45,7 @@ import org.exoplatform.portal.config.model.ApplicationType;
 import org.exoplatform.portal.pom.config.POMSessionManager;
 import org.exoplatform.portal.pom.spi.portlet.Portlet;
 import org.exoplatform.portal.pom.spi.wsrp.WSRP;
+
 import org.gatein.common.i18n.LocalizedString;
 import org.gatein.common.logging.Logger;
 import org.gatein.common.logging.LoggerFactory;
@@ -301,7 +303,7 @@ public class ApplicationRegistryServiceImpl implements ApplicationRegistryServic
         }
 
         //
-        ContentDefinition contentDef = categoryDef.getContentMap().get(application.getApplicationName());
+        ContentDefinition contentDef = findApp(categoryDef, application);
         if (contentDef == null) {
             throw new IllegalStateException();
         }
@@ -324,10 +326,26 @@ public class ApplicationRegistryServiceImpl implements ApplicationRegistryServic
 
         //
         if (categoryDef != null) {
+            ContentDefinition content = findApp(categoryDef, app);
+            if (content != null) {
+                categoryDef.getContentMap().remove(content.getName());
+            }
 
-            String contentName = app.getApplicationName();
-            categoryDef.getContentMap().remove(contentName);
         }
+    }
+
+    // Be used to care about backward compatibility
+    private ContentDefinition findApp(CategoryDefinition categoryDef, Application app) {
+        if (categoryDef != null) {
+            for (ContentDefinition contentDef : categoryDef.getContentList()) {
+                Application application = load(contentDef);
+                if (isApplicationType(application, app.getType()) && app.getApplicationName().equals(application.getApplicationName())) {
+                    return contentDef;
+                }
+            }
+        }
+
+        return null;
     }
 
     public void importExoGadgets() throws Exception {
@@ -550,7 +568,11 @@ public class ApplicationRegistryServiceImpl implements ApplicationRegistryServic
         application.setId(contentDef.getCategory().getName() + "/" + contentDef.getName());
         application.setCategoryName(contentDef.getCategory().getName());
         application.setType(applicationType);
-        application.setApplicationName(contentDef.getName());
+        if (ApplicationType.PORTLET.getName().equals(applicationType.getName())) {
+            application.setApplicationName(customization.getContentId().split("/")[1]);
+        } else {
+            application.setApplicationName(customization.getContentId());
+        }
         application.setIconURL(getApplicationIconURL(contentDef));
         application.setDisplayName(contentDef.getDisplayName());
         application.setDescription(contentDef.getDescription());

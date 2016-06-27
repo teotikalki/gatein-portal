@@ -30,7 +30,10 @@ import org.chromattic.api.annotations.OneToMany;
 import org.chromattic.api.annotations.PrimaryType;
 import org.chromattic.api.annotations.Property;
 import org.chromattic.ext.format.BaseEncodingObjectFormatter;
+
+import org.exoplatform.portal.config.model.ApplicationType;
 import org.exoplatform.portal.pom.config.POMSession;
+
 import org.gatein.mop.api.content.ContentType;
 import org.gatein.mop.api.content.Customization;
 import org.gatein.mop.api.workspace.Workspace;
@@ -110,6 +113,7 @@ public abstract class CategoryDefinition {
         Workspace workspace = session.getWorkspace();
 
         //
+        definitionName = ApplicationType.getType(contentType).getName() + "_" + definitionName;
         Customization customization = workspace.getCustomizationContext().getCustomization(definitionName);
 
         //
